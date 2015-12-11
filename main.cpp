@@ -53,8 +53,18 @@ int main()
             cout<<Dzielniki[i]<<endl;
         }
     }
-    //od tąd to szkic innego rozwiązania, ponieważ to wyżej nie działa
+    //Sprawdzenie czy liczba i jej dzielniki zostały poprawnie odczytane
+    for(int i=0;i<5;i++){
+        cout<<endl;
+    }
+    cout<<"liczba to: "<<N<<endl;
+    for(int i=0;i*i<=N;i++){
+            if(DzielnikiPF[i]==1){
+                cout<<"wielokrotnosci "<<Wielokrotnosci[i]<<" -dzielnik:"<<Dzielniki[i]<<endl;
+            }
+        }
 
+    //od tąd to szkic innego rozwiązania, ponieważ to wyżej nie działa
     int D=0;
     for(int i=0;i*i<=N;i++){
         if(DzielnikiPF[i]==1){
