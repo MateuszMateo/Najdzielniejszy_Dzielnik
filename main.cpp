@@ -22,8 +22,6 @@ int main()
 
     int P=sqrt(N);
     int Wielokrotnosci[P+1];
-    int Dzielniki[P+1];
-    int DzielnikiPF[P+1];
     int Wielokrotnosci2[P+1];
 
     for(int i=0;i<=sqrt(N);i++){
@@ -34,10 +32,6 @@ int main()
     long long o=N;
 
     for(int j=2,m=1;j*j<=N;j++,m++){
-        if(o%j==0){
-            DzielnikiPF[m]=1;
-            Dzielniki[m]=j;
-        }
         while(o%j==0){
             o=o/j;
             Wielokrotnosci[m]++;
@@ -48,39 +42,12 @@ int main()
     }
     sort (Wielokrotnosci2,Wielokrotnosci2+(P+1));
     cout<<Wielokrotnosci2[P]<<endl;
+    int ilosc=0;
     for(int i=0;i<P;i++){
         if(Wielokrotnosci[i]==Wielokrotnosci2[P]){
-            cout<<Dzielniki[i]<<endl;
+            ilosc++;
         }
     }
-    //Sprawdzenie czy liczba i jej dzielniki zostały poprawnie odczytane
-    for(int i=0;i<5;i++){
-        cout<<endl;
-    }
-    cout<<"liczba to: "<<N<<endl;
-    for(int i=0;i*i<=N;i++){
-            if(DzielnikiPF[i]==1){
-                cout<<"wielokrotnosci "<<Wielokrotnosci[i]<<" -dzielnik:"<<Dzielniki[i]<<endl;
-            }
-        }
-
-    //od tąd to szkic innego rozwiązania, ponieważ to wyżej nie działa
-    int D=0;
-    for(int i=0;i*i<=N;i++){
-        if(DzielnikiPF[i]==1){
-            D++;
-        }
-    }
-    int TablicaW[D+1];
-    int TablicaD[D+1];
-    int B=0;
-    for(int i=0;i*i<=N;i++){
-        if(DzielnikiPF[i]==1){
-            TablicaW[B]=Wielokrotnosci[i];
-            TablicaD[B]=Dzielniki[i];
-            B++;
-        }
-    }
+    cout<<ilosc<<endl;
 
 }
-
