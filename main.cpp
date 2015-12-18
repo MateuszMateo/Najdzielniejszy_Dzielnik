@@ -105,7 +105,7 @@ bool pierwsza(long long int n){
     return true;
 }
 
-// sprawdza, czy liczba jest kwadratem liczby ca³kowitej
+// sprawdza, czy liczba jest kwadratem liczby całkowitej
 bool czy_kwadrat(long long int n)
 {
     long long int tst = (long long int)(sqrt(n) + 0.5);
@@ -164,11 +164,10 @@ int main()
     for (int i = 0; i < n; ++i) {
         for(auto liczba_pierwsza : liczby_pierwsze){
             while(a[i]%liczba_pierwsza>0){
-                lista_dzielnikow[liczba_pierwsza]=lista_dzielnikow[liczba_pierwsza]+1;
-                cout<<liczba_pierwsza;
-                a[i] = a[i]/liczba_pierwsza;
-                //Błąd!//
-            }
+//                lista_dzielnikow[liczba_pierwsza]++;
+//                cout<<liczba_pierwsza;
+//                a[i] = a[i]/liczba_pierwsza;
+//            }
 
         }
         // for(auto liczba_pierwsza : liczby_pierwsze) {
@@ -184,6 +183,9 @@ int main()
     /////////////////////////////////
 
     for (int i = 0; i < n; ++i) {
+        if(pierwsza(a[i])){
+            lista_dzielnikow[a[i]]++;
+        }
         // sprawdz, czy a[i] jest pierwsze (uzyj funkcji Miller_Rabin)
         // jesli tak, to dodaj do listy
 
