@@ -206,8 +206,9 @@ int main()
 
         for (int i = 0; i < n; ++i) {
             if (czy_kwadrat(a[i])){
-
+                cout<<" ++ "<<endl;
                 lista_dzielnikow[sqrt(a[i])]=lista_dzielnikow[sqrt(a[i])]+2;
+                cout<<sqrt(a[i])<<endl;
             }
         }
         // sprawdz, czy a[i] jest kwadratem liczby pierwszej
@@ -232,6 +233,11 @@ int main()
         // jesli tak, to dodaj to nwd do listy dwukrotnie
         // dodaj tez a[i]/nwd oraz a[j]/nwd
         for (int j = 0; j < n; ++j) {
+            if(nwd(a[i],a[j])>1){
+                lista_dzielnikow[nwd(a[i],a[j])]++;
+                lista_dzielnikow[a[i]/nwd(a[i],a[j])]++;
+                lista_dzielnikow[a[j]/nwd(a[i],a[j])]++;
+            }
             cout << "NWD(" << a[i] << ", " << a[j] << ") = " << nwd(a[i], a[j]) << endl;
         }
     }
