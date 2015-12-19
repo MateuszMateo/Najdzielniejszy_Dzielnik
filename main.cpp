@@ -163,18 +163,18 @@ int main()
 
     for (int i = 0; i < n; ++i) {
         for(auto liczba_pierwsza : liczby_pierwsze){
-            while(a[i]%liczba_pierwsza>0){
-                //                lista_dzielnikow[liczba_pierwsza]++;
-                //                cout<<liczba_pierwsza;
-                //                a[i] = a[i]/liczba_pierwsza;
-                //            }
+            while(a[i]%liczba_pierwsza==0){
+                dodaj_do_listy(a[i]);
+                cout<<liczba_pierwsza;
+                a[i] = a[i]/liczba_pierwsza;
+
 
             }
             // for(auto liczba_pierwsza : liczby_pierwsze) {
             //		sprawdz, czy liczba_pierwsza dzieli a[i]
             //		jesli tak, to dodaj_do_listy(lista, a[i])
             //				   oraz a[i] = a[i] / liczba_pierwsza
-            // }
+        }
         }
 
 
@@ -210,7 +210,7 @@ int main()
                 lista_dzielnikow[sqrt(a[i])]=lista_dzielnikow[sqrt(a[i])]+2;
                 cout<<sqrt(a[i])<<endl;
             }
-        }
+
         // sprawdz, czy a[i] jest kwadratem liczby pierwszej
         // jesli tak, to
 
