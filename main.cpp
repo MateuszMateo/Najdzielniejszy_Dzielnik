@@ -164,52 +164,51 @@ int main()
     for (int i = 0; i < n; ++i) {
         for(auto liczba_pierwsza : liczby_pierwsze){
             while(a[i]%liczba_pierwsza==0){
+                cout<<liczba_pierwsza<<"- dzielnik"<<endl;
                 dodaj_do_listy(a[i]);
-                cout<<liczba_pierwsza;
-                a[i] = a[i]/liczba_pierwsza;
-
-
+                a[i]=a[i]/liczba_pierwsza;
             }
             // for(auto liczba_pierwsza : liczby_pierwsze) {
             //		sprawdz, czy liczba_pierwsza dzieli a[i]
             //		jesli tak, to dodaj_do_listy(lista, a[i])
             //				   oraz a[i] = a[i] / liczba_pierwsza
         }
+    }
+
+
+    /////////////////////////////////
+    // ETAP 2: Rabin-Miller        //
+    /////////////////////////////////
+
+    for (int i = 0; i < n; ++i) {
+        if(pierwsza(a[i])){
+            dodaj_do_listy(a[i]);
         }
+        // sprawdz, czy a[i] jest pierwsze (uzyj funkcji Miller_Rabin)
+        // jesli tak, to dodaj do listy
 
-
-        /////////////////////////////////
-        // ETAP 2: Rabin-Miller        //
-        /////////////////////////////////
-
-        for (int i = 0; i < n; ++i) {
-            if(pierwsza(a[i])){
-                lista_dzielnikow[a[i]]++;
-            }
-            // sprawdz, czy a[i] jest pierwsze (uzyj funkcji Miller_Rabin)
-            // jesli tak, to dodaj do listy
-
-            cout << "(debug) liczba " << a[i] << "jest ";
-            if (pierwsza(a[i])) {
-                cout << "pierwsza" << endl;
-            }
-            else {
-                cout << "zlozona" << endl;
-            }
+        cout << "(debug) liczba " << a[i] << "jest ";
+        if (pierwsza(a[i])) {
+            cout << "pierwsza" << endl;
         }
+        else {
+            cout << "zlozona" << endl;
+        }
+    }
 
 
-        /////////////////////////////////
-        // ETAP 3: kwadraty pierwszych //
-        /////////////////////////////////
+    /////////////////////////////////
+    // ETAP 3: kwadraty pierwszych //
+    /////////////////////////////////
 
 
-        for (int i = 0; i < n; ++i) {
-            if (czy_kwadrat(a[i])){
-                cout<<" ++ "<<endl;
-                lista_dzielnikow[sqrt(a[i])]=lista_dzielnikow[sqrt(a[i])]+2;
-                cout<<sqrt(a[i])<<endl;
-            }
+    for (int i = 0; i < n; ++i) {
+        if (czy_kwadrat(a[i])){
+            cout<<" ++ "<<endl;
+            dodaj_do_listy(sqrt(a[i]));
+            dodaj_do_listy(sqrt(a[i]));
+            cout<<sqrt(a[i])<<endl;
+        }
 
         // sprawdz, czy a[i] jest kwadratem liczby pierwszej
         // jesli tak, to
@@ -234,9 +233,9 @@ int main()
         // dodaj tez a[i]/nwd oraz a[j]/nwd
         for (int j = 0; j < n; ++j) {
             if(nwd(a[i],a[j])>1){
-                lista_dzielnikow[nwd(a[i],a[j])]++;
-                lista_dzielnikow[a[i]/nwd(a[i],a[j])]++;
-                lista_dzielnikow[a[j]/nwd(a[i],a[j])]++;
+                dodaj_do_listy(nwd(a[i],a[j]));
+                dodaj_do_listy(a[i]/nwd(a[i],a[j]));
+                dodaj_do_listy(a[j]/nwd(a[i],a[j]));
             }
             cout << "NWD(" << a[i] << ", " << a[j] << ") = " << nwd(a[i], a[j]) << endl;
         }
