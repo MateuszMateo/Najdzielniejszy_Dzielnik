@@ -164,7 +164,6 @@ int main()
     for (int i = 0; i < n; ++i) {
         for(auto liczba_pierwsza : liczby_pierwsze){
             while(a[i]%liczba_pierwsza==0){
-                cout<<liczba_pierwsza<<"- dzielnik"<<endl;
                 dodaj_do_listy(a[i]);
                 a[i]=a[i]/liczba_pierwsza;
             }
@@ -181,18 +180,20 @@ int main()
     /////////////////////////////////
 
     for (int i = 0; i < n; ++i) {
-        if(pierwsza(a[i])){
-            dodaj_do_listy(a[i]);
-        }
-        // sprawdz, czy a[i] jest pierwsze (uzyj funkcji Miller_Rabin)
-        // jesli tak, to dodaj do listy
+        if(a[i]!=1){
+            if(pierwsza(a[i])){
+                dodaj_do_listy(a[i]);
+            }
+            // sprawdz, czy a[i] jest pierwsze (uzyj funkcji Miller_Rabin)
+            // jesli tak, to dodaj do listy
 
-        cout << "(debug) liczba " << a[i] << "jest ";
-        if (pierwsza(a[i])) {
-            cout << "pierwsza" << endl;
-        }
-        else {
-            cout << "zlozona" << endl;
+            cout << "(debug) liczba " << a[i] << "jest ";
+            if (pierwsza(a[i])) {
+                cout << "pierwsza" << endl;
+            }
+            else {
+                cout << "zlozona" << endl;
+            }
         }
     }
 
@@ -203,24 +204,26 @@ int main()
 
 
     for (int i = 0; i < n; ++i) {
-        if (czy_kwadrat(a[i])){
-            cout<<" ++ "<<endl;
-            dodaj_do_listy(sqrt(a[i]));
-            dodaj_do_listy(sqrt(a[i]));
-            cout<<sqrt(a[i])<<endl;
-        }
+        if(a[i]!=1){
+            if (czy_kwadrat(a[i])){
+                cout<<" ++ "<<endl;
+                dodaj_do_listy(sqrt(a[i]));
+                dodaj_do_listy(sqrt(a[i]));
+                cout<<sqrt(a[i])<<endl;
+            }
 
-        // sprawdz, czy a[i] jest kwadratem liczby pierwszej
-        // jesli tak, to
+            // sprawdz, czy a[i] jest kwadratem liczby pierwszej
+            // jesli tak, to
 
-        cout << "(debug) liczba " << a[i];
-        if (czy_kwadrat(a[i])) {
-            cout << " jest";
+            cout << "(debug) liczba " << a[i];
+            if (czy_kwadrat(a[i])) {
+                cout << " jest";
+            }
+            else {
+                cout << " nie jest";
+            }
+            cout << " kwadratem liczby pierwszej" << endl;
         }
-        else {
-            cout << " nie jest";
-        }
-        cout << " kwadratem liczby pierwszej" << endl;
     }
 
     /////////////////////////////////
@@ -228,16 +231,18 @@ int main()
     /////////////////////////////////
 
     for (int i = 0; i < n; ++i) {
-        // sprawdz, czy nwd tych dwoch liczb jest wieksze od 1
-        // jesli tak, to dodaj to nwd do listy dwukrotnie
-        // dodaj tez a[i]/nwd oraz a[j]/nwd
-        for (int j = 0; j < n; ++j) {
-            if(nwd(a[i],a[j])>1){
-                dodaj_do_listy(nwd(a[i],a[j]));
-                dodaj_do_listy(a[i]/nwd(a[i],a[j]));
-                dodaj_do_listy(a[j]/nwd(a[i],a[j]));
+        if(a[i]!=1){
+            // sprawdz, czy nwd tych dwoch liczb jest wieksze od 1
+            // jesli tak, to dodaj to nwd do listy dwukrotnie
+            // dodaj tez a[i]/nwd oraz a[j]/nwd
+            for (int j = 0; j < n; ++j) {
+                if(nwd(a[i],a[j])>1){
+                    dodaj_do_listy(nwd(a[i],a[j]));
+                    dodaj_do_listy(a[i]/nwd(a[i],a[j]));
+                    dodaj_do_listy(a[j]/nwd(a[i],a[j]));
+                }
+                cout << "NWD(" << a[i] << ", " << a[j] << ") = " << nwd(a[i], a[j]) << endl;
             }
-            cout << "NWD(" << a[i] << ", " << a[j] << ") = " << nwd(a[i], a[j]) << endl;
         }
     }
 
@@ -246,6 +251,10 @@ int main()
     /////////////////////////////////
 
     for (int i = 0; i < n; ++i) {
+        if(a[i]!=1){
+            dodaj_do_listy(a[i]);
+            dodaj_do_listy(a[i]+1);
+        }
         // jezeli po tych wszystkich etapach liczba a[i] wciaz nie jest rowna 1, to
         // znaczy ze ma dwa nie-wiadomo-jakie dzielniki (ale na pewno te dzielniki
         // nie wystepuja nigdzie indziej -> maja krotnosc 1)
@@ -256,10 +265,25 @@ int main()
     //////////////////////////////
 
     // przejdz po elementach mapy, znajdz dzielniki z maksymalna krotnoscia, policz je
-    //for(auto dzielnik: lista_dzielnikow) {
-    //	cout << dzielnik.first << " "; //wartosc dzielnika
-    //	cout << dzielnik.second << endl; //krotnosc
-    //}
+    for(auto dzielnik: lista_dzielnikow) {
+        cout << dzielnik.first << " "; //wartosc dzielnika
+        cout << dzielnik.second << endl; //krotnosc
+    }
+    int NajKrotnosc=0;
+    for(auto dzielnik: lista_dzielnikow){
+        if(dzielnik.second>NajKrotnosc){
+            NajKrotnosc=dzielnik.second;
+        }
+    }
+    int Liczba_NajDziel=0;
+    for(auto dzielnik: lista_dzielnikow){
+        if(dzielnik.second==NajKrotnosc){
+            Liczba_NajDziel++;
+        }
+    }
+    cout<<NajKrotnosc<<endl;
+    int ABC=pow(2,Liczba_NajDziel)-1;
+    cout<<ABC<<endl;
 
     // wypisz wynik
     // cout << "...";
