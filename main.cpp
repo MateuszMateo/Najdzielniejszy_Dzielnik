@@ -252,7 +252,7 @@ int main()
 		}
 	}
 	cout << NajKrotnosc << endl;
-	int ABC = pow(2, Liczba_NajDziel) - 1;
+	int ABC=(int)pow((double)2,Liczba_NajDziel)-1;
 	cout << ABC << endl;
 
 	// wypisz wynik
