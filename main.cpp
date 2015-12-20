@@ -148,23 +148,13 @@ int main()
     // ETAP 1: faktoryzacja        //
     /////////////////////////////////
 
-    cout << "(debug) Wynaczam liczby pierwsze do " << ROZMIAR_SITA << "..." << endl;
     /// tablica zawieraj¹ca kolejne liczby pierwsze do miliona
     auto liczby_pierwsze = sito();
-    cout << "(debug) Wyznaczone liczby pierwsze: " << endl;
-    cout << "(debug) ";
-    for (auto liczba_pierwsza : liczby_pierwsze) {
-        cout << liczba_pierwsza << " ";
-        if (liczba_pierwsza > 30) {
-            cout << "itd." << endl;
-            break;
-        }
-    }
 
     for (int i = 0; i < n; ++i) {
         for(auto liczba_pierwsza : liczby_pierwsze){
             while(a[i]%liczba_pierwsza==0){
-                dodaj_do_listy(a[i]);
+                dodaj_do_listy(liczba_pierwsza);
                 a[i]=a[i]/liczba_pierwsza;
             }
             // for(auto liczba_pierwsza : liczby_pierwsze) {
@@ -184,16 +174,7 @@ int main()
             if(pierwsza(a[i])){
                 dodaj_do_listy(a[i]);
             }
-            // sprawdz, czy a[i] jest pierwsze (uzyj funkcji Miller_Rabin)
-            // jesli tak, to dodaj do listy
 
-            cout << "(debug) liczba " << a[i] << "jest ";
-            if (pierwsza(a[i])) {
-                cout << "pierwsza" << endl;
-            }
-            else {
-                cout << "zlozona" << endl;
-            }
         }
     }
 
@@ -206,23 +187,14 @@ int main()
     for (int i = 0; i < n; ++i) {
         if(a[i]!=1){
             if (czy_kwadrat(a[i])){
-                cout<<" ++ "<<endl;
                 dodaj_do_listy(sqrt(a[i]));
                 dodaj_do_listy(sqrt(a[i]));
-                cout<<sqrt(a[i])<<endl;
             }
 
             // sprawdz, czy a[i] jest kwadratem liczby pierwszej
             // jesli tak, to
 
-            cout << "(debug) liczba " << a[i];
-            if (czy_kwadrat(a[i])) {
-                cout << " jest";
-            }
-            else {
-                cout << " nie jest";
-            }
-            cout << " kwadratem liczby pierwszej" << endl;
+
         }
     }
 
@@ -241,13 +213,12 @@ int main()
                     dodaj_do_listy(a[i]/nwd(a[i],a[j]));
                     dodaj_do_listy(a[j]/nwd(a[i],a[j]));
                 }
-                cout << "NWD(" << a[i] << ", " << a[j] << ") = " << nwd(a[i], a[j]) << endl;
             }
         }
     }
 
     /////////////////////////////////
-    // ETAP 5: liczby pó³pierwsze  //
+    // ETAP 5: liczby półpierwsze  //
     /////////////////////////////////
 
     for (int i = 0; i < n; ++i) {
@@ -265,10 +236,6 @@ int main()
     //////////////////////////////
 
     // przejdz po elementach mapy, znajdz dzielniki z maksymalna krotnoscia, policz je
-    for(auto dzielnik: lista_dzielnikow) {
-        cout << dzielnik.first << " "; //wartosc dzielnika
-        cout << dzielnik.second << endl; //krotnosc
-    }
     int NajKrotnosc=0;
     for(auto dzielnik: lista_dzielnikow){
         if(dzielnik.second>NajKrotnosc){
