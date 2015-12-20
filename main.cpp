@@ -255,5 +255,5 @@ int main()
     // wypisz wynik
     // cout << "...";
 
-    system("PAUSE");
+    //system("PAUSE");
 }
