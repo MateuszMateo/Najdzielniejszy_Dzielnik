@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
@@ -124,19 +124,20 @@ long long int nwd(long long int a, long long int b){
     return nwd(b%a, a);
 }
 
-void lacz_mapy(){
-    for(auto l : lista_pomocnicza){
-	long long int dzielnik = l.first;
-        int krotnosc = l.second;
-        if(lista_dzielnikow.find(dzielnik) != lista_dzielnikow.end()){
-            lista_dzielnikow[dzielnik] += krotnosc;
-        }else{
-            lista_dzielnikow[dzielnik] = krotnosc;
-        }
-    }
-}
+// void lacz_mapy(){
+//     for(auto l : lista_pomocnicza){
+// 	long long int dzielnik = l.first;
+//         int krotnosc = l.second;
+//         if(lista_dzielnikow.find(dzielnik) != lista_dzielnikow.end()){
+//             lista_dzielnikow[dzielnik] += krotnosc;
+//         }else{
+//             lista_dzielnikow[dzielnik] = krotnosc;
+//         }
+//     }
+// }
 
 void dodaj_do_listy(long long int n) {
+   // cout << "dodaje " << n << endl;
     if (lista_dzielnikow.find(n) != lista_dzielnikow.end()) {
         lista_dzielnikow[n] = lista_dzielnikow[n] + 1;
     }
@@ -154,149 +155,41 @@ void dodaj_do_listy2(long long int n) {
     }
 }
 
-#define bool int
-
-bool czy_wieksze(vector<bool> pierwsza, vector<bool> druga) {
-    int wieksza_dlugosc = max(pierwsza.size(), druga.size());
-    int przesuniecie_pierwszej = wieksza_dlugosc - pierwsza.size();
-    int przesuniecie_drugiej = wieksza_dlugosc - druga.size();
-    for(int i=0; i < wieksza_dlugosc; ++i) {
-	bool pierwsza_cyfra, druga_cyfra;
-	if(i < przesuniecie_pierwszej) {
-	    pierwsza_cyfra = 0;
-	} else {
-	    pierwsza_cyfra = pierwsza[i - przesuniecie_pierwszej];
-	}
-	if(i < przesuniecie_drugiej) {
-	    druga_cyfra = 0;
-	} else {
-	    druga_cyfra = druga[i - przesuniecie_drugiej];
-	}
-	if(pierwsza_cyfra == druga_cyfra) {
-	}
-	else if(pierwsza_cyfra > druga_cyfra) {
-	    return true;
-	}
-	else if(pierwsza_cyfra < druga_cyfra) {
-	    return false;
-	}
-    }
-}
-
-vector<bool> odejmij(vector<bool> pierwsza, vector<bool> druga) {
-    // UWAGA odejmowanie bez pozyczek
-    int wieksza_dlugosc = max(pierwsza.size(), druga.size());
-    int przesuniecie_pierwszej = wieksza_dlugosc - pierwsza.size();
-    int przesuniecie_drugiej = wieksza_dlugosc - druga.size();
-    vector <bool> wynik;
-    for(int i=0; i < wieksza_dlugosc; ++i) {
-	bool pierwsza_cyfra, druga_cyfra;
-	if(i < przesuniecie_pierwszej) {
-	    pierwsza_cyfra = 0;
-	} else {
-	    pierwsza_cyfra = pierwsza[i - przesuniecie_pierwszej];
-	}
-	if(i < przesuniecie_drugiej) {
-	    druga_cyfra = 0;
-	} else {
-	    druga_cyfra = druga[i - przesuniecie_drugiej];
-	}
-	if(pierwsza_cyfra == 1 && druga_cyfra == 0) {
-	    wynik.push_back(1);
-	} else if(pierwsza_cyfra == druga_cyfra) {
-	    wynik.push_back(0);
-	} else if(pierwsza_cyfra == 0 && druga_cyfra == 1) {
-	    cout << "UWAGA POZYCZKA PRZY ODEJMOWNAIU" << endl;
-	    exit(1);
-	}
-	
-    }
-    return wynik;
-    
-}
-
-void wypisz_liczbe(vector<bool> n);
-
-vector<bool> generuj_dzielnik(int ile_zer) {
-    cout << "generuj_dzielnik("<<ile_zer<<") " << endl;
-  
-    vector<bool> dzielnik;
-    dzielnik.push_back(1);
-    dzielnik.push_back(0);
-    dzielnik.push_back(1);
-    dzielnik.push_back(0);
-    
-    for(int i = 0; i< ile_zer; ++i ){ 
-	dzielnik.push_back(0);
-    }
-    
-    return dzielnik;
-}
-
-
-
-vector<bool> podziel_przez_10(vector<bool> dzielna) {
-  
-	    cout << "podziel_przez_10, " << endl << "dzielna: ";
-	    wypisz_liczbe(dzielna);
-  
-    int dlugosc = dzielna.size();
-  
-    vector<bool> wynik;
-    
-    for(int i = dlugosc; i>=0; --i) {
-    cout << "jeszcze  zyje, i = " << i << ", dlugosc = " << dlugosc << endl;
-	vector<bool> dzielnik = generuj_dzielnik(i);
-	if(czy_wieksze(dzielna, dzielnik)) {
-	    wynik.push_back(1);
-	    dzielna = odejmij(dzielna, dzielnik);
-	    cout << "Odejmuje liczbe:";
-	    wypisz_liczbe(dzielnik);
-	    cout << "Od:";
-	    wypisz_liczbe(dzielna);
-	} else {
-	    wynik.push_back(0);
-	    cout << "Pomijam odejmowanie:";
-	    wypisz_liczbe(dzielnik);
-	    wypisz_liczbe(dzielna);
-	    
-	}
-    }
-    return wynik;
-}
+const int MAX_LICZBA_CYFR = 100000;
 
 void wypisz_dwa_do_n_minus_jeden(int n) {
-    vector<bool> liczba;
-    for(int i=0;i<n;++i) {
-	liczba.push_back(1);
+  //cout << "n="<<n << endl;
+    int cyfry[MAX_LICZBA_CYFR+1];
+    cyfry[0]=1;
+    for(int i=1; i<MAX_LICZBA_CYFR; i++){
+	cyfry[i]=0;   
+    }
+    for(int j=0; j<n;j++){
+      for(int i = MAX_LICZBA_CYFR-1; i>=0; --i){
+	//cout << "zmieniam cyfre " << i << " z " << cyfry[i] << " na " << (cyfry[i]*2) << endl;
+	cyfry[i]=cyfry[i]*2;
+	if(cyfry[i]>9){
+	  cyfry[i]=cyfry[i]%10;
+	//cout << "zmieniam kolejna cyfre " << (i+1) << " z " << cyfry[i+1] << " na " << (cyfry[i+1]+1) << endl;
+	  cyfry[i+1]++;
+	}
+      }
+    }
+    cyfry[0]--;
+    bool czy_bylo_cos_wiekszego = false;
+    for(int i = MAX_LICZBA_CYFR-1; i>=0; --i){
+      if(cyfry[i]>0){
+	czy_bylo_cos_wiekszego=true;
+      }
+      if(czy_bylo_cos_wiekszego){
+	cout<<cyfry[i];
+      }
     }
     
-    while(1) {
-      cout << "AAAA" << endl;
-	wypisz_liczbe(liczba);
-	//vector<bool> modulo = modulo_10(liczba)
-	vector<bool> liczba = podziel_przez_10(liczba);
-	if(liczba.size() == 0 ){
-	    break;
-	}
-    }
-}
-
-void wypisz_liczbe(vector<bool> n) {
-    for(auto i: n) {
-	cout << i << " ";
-    }
-    cout << "(dlugosc: "<< n.size() << ")"<< endl;
 }
 
 int main()
 {
-    wypisz_dwa_do_n_minus_jeden(8);
-  
-    return 0;
-  
-  
-  
     ios_base::sync_with_stdio(0);
     srand((unsigned int)time(0));
     //////////////////////////////
@@ -379,9 +272,24 @@ int main()
             // jesli tak, to dodaj to nwd do listy dwukrotnie
             // dodaj tez a[i]/nwd oraz a[j]/nwd
             for (int j = i+1; j < n; ++j) {
-                if(a[j]!=1){
+              
+	      for (map<long long int, int>::iterator iter = lista_dzielnikow.begin(); iter != lista_dzielnikow.end(); ++iter){
+		    pair<long long int, int> g = *iter;
+		    if(a[i]%g.first==0){
+			dodaj_do_listy(g.first);
+			dodaj_do_listy((a[i]/g.first));
+			a[i] = 1;
+		    }
+		    if(a[j]%g.first==0){
+			dodaj_do_listy(g.first);
+			dodaj_do_listy((a[j]/g.first));
+			a[j] = 1;
+		    }
+		}
+		if(a[j]!=1){
+		  
 		      long long int nwd_ = nwd(a[i], a[j]);
-		      if (nwd_>1){
+		      if (nwd_>1 && nwd_> a[i] && nwd_ > a[j]){
 			  dodaj_do_listy(nwd_);
 			  dodaj_do_listy(nwd_);
 			  dodaj_do_listy(a[i] / nwd_);
@@ -400,12 +308,15 @@ int main()
     /////////////////////////////////
     
     for (int i = 0; i < n; ++i) {
-	for(auto g : lista_dzielnikow){
-	    if(a[i]%g.first==0){
-		dodaj_do_listy(g.first);
-		dodaj_do_listy((a[i]/g.first));
-		a[i] = 1;
-	    }
+      if (a[i] != 1){
+	for (map<long long int, int>::iterator iter = lista_dzielnikow.begin(); iter != lista_dzielnikow.end(); ++iter){
+	      pair<long long int, int> g = *iter;
+	      if(a[i]%g.first==0){
+		  dodaj_do_listy(g.first);
+		  dodaj_do_listy((a[i]/g.first));
+		  a[i] = 1;
+	      }
+	  }
 	}
     }
 
@@ -429,9 +340,14 @@ int main()
     // WYJSCIE                  //
     //////////////////////////////
 
-    for (map<long long int, int>::iterator iter = lista_dzielnikow.begin(); iter != lista_dzielnikow.end(); ++iter){
-      cout << "debug: " << (*iter ).first << ", krotnosc: "<< (*iter ).second << endl;
-    }
+    //int trojki = 0;
+    //for (map<long long int, int>::iterator iter = lista_dzielnikow.begin(); iter != lista_dzielnikow.end(); ++iter){
+    //  cout << "debug: " << (*iter ).first << ", krotnosc: "<< (*iter ).second;
+    //  if((*iter ).second == 3) {
+    //    cout << "  << " <<  (++ trojki);
+    //  }
+    //  cout  << endl;
+    //}
     
     
     // przejdz po elementach mapy, znajdz dzielniki z maksymalna krotnoscia, policz je
@@ -450,10 +366,9 @@ int main()
         }
     }
     cout << NajKrotnosc << endl;
+    //cout << "n=" << Liczba_NajDziel<<  endl;
     wypisz_dwa_do_n_minus_jeden(Liczba_NajDziel);
 
-    // wypisz wynik
-    // cout << "...";
 
     //system("PAUSE");
 }
