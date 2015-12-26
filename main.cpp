@@ -106,11 +106,15 @@ bool pierwsza(long long int n){
     return true;
 }
 
+long long int pierwiastek (long long int n) {
+   return (long long int)(sqrt(n) + 0.5);
+}
+
 // sprawdza, czy liczba jest kwadratem liczby całkowitej
 bool czy_kwadrat(long long int n)
 {
-    long long int tst = (long long int)(sqrt(n) + 0.5);
-    return tst*tst == n;
+    long long int prw = pierwiastek(n);
+    return prw*prw == n;
 }
 
 long long int nwd(long long int a, long long int b){
@@ -122,11 +126,12 @@ long long int nwd(long long int a, long long int b){
 
 void lacz_mapy(){
     for(auto l : lista_pomocnicza){
-        int krotnosc=lista_pomocnicza[l];
-        if(lista_pomocnicza.find(l) != lista_pomocnicza.end){
-            lista_pomocnicza[l] += krotnosc;
+	long long int dzielnik = l.first;
+        int krotnosc = l.second;
+        if(lista_dzielnikow.find(dzielnik) != lista_dzielnikow.end()){
+            lista_dzielnikow[dzielnik] += krotnosc;
         }else{
-            lista_pomocnicza[l] = krotnosc;
+            lista_dzielnikow[dzielnik] = krotnosc;
         }
     }
 }
@@ -149,8 +154,149 @@ void dodaj_do_listy2(long long int n) {
     }
 }
 
+#define bool int
+
+bool czy_wieksze(vector<bool> pierwsza, vector<bool> druga) {
+    int wieksza_dlugosc = max(pierwsza.size(), druga.size());
+    int przesuniecie_pierwszej = wieksza_dlugosc - pierwsza.size();
+    int przesuniecie_drugiej = wieksza_dlugosc - druga.size();
+    for(int i=0; i < wieksza_dlugosc; ++i) {
+	bool pierwsza_cyfra, druga_cyfra;
+	if(i < przesuniecie_pierwszej) {
+	    pierwsza_cyfra = 0;
+	} else {
+	    pierwsza_cyfra = pierwsza[i - przesuniecie_pierwszej];
+	}
+	if(i < przesuniecie_drugiej) {
+	    druga_cyfra = 0;
+	} else {
+	    druga_cyfra = druga[i - przesuniecie_drugiej];
+	}
+	if(pierwsza_cyfra == druga_cyfra) {
+	}
+	else if(pierwsza_cyfra > druga_cyfra) {
+	    return true;
+	}
+	else if(pierwsza_cyfra < druga_cyfra) {
+	    return false;
+	}
+    }
+}
+
+vector<bool> odejmij(vector<bool> pierwsza, vector<bool> druga) {
+    // UWAGA odejmowanie bez pozyczek
+    int wieksza_dlugosc = max(pierwsza.size(), druga.size());
+    int przesuniecie_pierwszej = wieksza_dlugosc - pierwsza.size();
+    int przesuniecie_drugiej = wieksza_dlugosc - druga.size();
+    vector <bool> wynik;
+    for(int i=0; i < wieksza_dlugosc; ++i) {
+	bool pierwsza_cyfra, druga_cyfra;
+	if(i < przesuniecie_pierwszej) {
+	    pierwsza_cyfra = 0;
+	} else {
+	    pierwsza_cyfra = pierwsza[i - przesuniecie_pierwszej];
+	}
+	if(i < przesuniecie_drugiej) {
+	    druga_cyfra = 0;
+	} else {
+	    druga_cyfra = druga[i - przesuniecie_drugiej];
+	}
+	if(pierwsza_cyfra == 1 && druga_cyfra == 0) {
+	    wynik.push_back(1);
+	} else if(pierwsza_cyfra == druga_cyfra) {
+	    wynik.push_back(0);
+	} else if(pierwsza_cyfra == 0 && druga_cyfra == 1) {
+	    cout << "UWAGA POZYCZKA PRZY ODEJMOWNAIU" << endl;
+	    exit(1);
+	}
+	
+    }
+    return wynik;
+    
+}
+
+void wypisz_liczbe(vector<bool> n);
+
+vector<bool> generuj_dzielnik(int ile_zer) {
+    cout << "generuj_dzielnik("<<ile_zer<<") " << endl;
+  
+    vector<bool> dzielnik;
+    dzielnik.push_back(1);
+    dzielnik.push_back(0);
+    dzielnik.push_back(1);
+    dzielnik.push_back(0);
+    
+    for(int i = 0; i< ile_zer; ++i ){ 
+	dzielnik.push_back(0);
+    }
+    
+    return dzielnik;
+}
+
+
+
+vector<bool> podziel_przez_10(vector<bool> dzielna) {
+  
+	    cout << "podziel_przez_10, " << endl << "dzielna: ";
+	    wypisz_liczbe(dzielna);
+  
+    int dlugosc = dzielna.size();
+  
+    vector<bool> wynik;
+    
+    for(int i = dlugosc; i>=0; --i) {
+    cout << "jeszcze  zyje, i = " << i << ", dlugosc = " << dlugosc << endl;
+	vector<bool> dzielnik = generuj_dzielnik(i);
+	if(czy_wieksze(dzielna, dzielnik)) {
+	    wynik.push_back(1);
+	    dzielna = odejmij(dzielna, dzielnik);
+	    cout << "Odejmuje liczbe:";
+	    wypisz_liczbe(dzielnik);
+	    cout << "Od:";
+	    wypisz_liczbe(dzielna);
+	} else {
+	    wynik.push_back(0);
+	    cout << "Pomijam odejmowanie:";
+	    wypisz_liczbe(dzielnik);
+	    wypisz_liczbe(dzielna);
+	    
+	}
+    }
+    return wynik;
+}
+
+void wypisz_dwa_do_n_minus_jeden(int n) {
+    vector<bool> liczba;
+    for(int i=0;i<n;++i) {
+	liczba.push_back(1);
+    }
+    
+    while(1) {
+      cout << "AAAA" << endl;
+	wypisz_liczbe(liczba);
+	//vector<bool> modulo = modulo_10(liczba)
+	vector<bool> liczba = podziel_przez_10(liczba);
+	if(liczba.size() == 0 ){
+	    break;
+	}
+    }
+}
+
+void wypisz_liczbe(vector<bool> n) {
+    for(auto i: n) {
+	cout << i << " ";
+    }
+    cout << "(dlugosc: "<< n.size() << ")"<< endl;
+}
+
 int main()
 {
+    wypisz_dwa_do_n_minus_jeden(8);
+  
+    return 0;
+  
+  
+  
     ios_base::sync_with_stdio(0);
     srand((unsigned int)time(0));
     //////////////////////////////
@@ -210,8 +356,9 @@ int main()
     for (int i = 0; i < n; ++i) {
         if (a[i] != 1){
             if (czy_kwadrat(a[i])){
-                dodaj_do_listy(sqrt(a[i]));
-                dodaj_do_listy(sqrt(a[i]));
+	        long long int p = pierwiastek(a[i]);
+                dodaj_do_listy(p);
+                dodaj_do_listy(p);
                 a[i]=1;
             }
 
@@ -231,29 +378,38 @@ int main()
             // sprawdz, czy nwd tych dwoch liczb jest wieksze od 1
             // jesli tak, to dodaj to nwd do listy dwukrotnie
             // dodaj tez a[i]/nwd oraz a[j]/nwd
-            for (int j = 0; j < n; ++j) {
+            for (int j = i+1; j < n; ++j) {
                 if(a[j]!=1){
-                    if(i>j){
-                        if (nwd(a[i], a[j])>1){
-                            for(auto g : lista_pomocnicza){
-                                if(a[i]%g==0){
-                                    dodaj_do_listy2(g);
-                                    dodaj_do_listy2((a[i]/g));
-                                }
-                            }
-                            dodaj_do_listy2(nwd(a[i], a[j]));
-                            dodaj_do_listy2(a[i] / nwd(a[i], a[j]));
-                            dodaj_do_listy2(a[j] / nwd(a[i], a[j]));
-                            a[i]=1;
-                            a[j]=j;
-                        }
-                    }
+		      long long int nwd_ = nwd(a[i], a[j]);
+		      if (nwd_>1){
+			  dodaj_do_listy(nwd_);
+			  dodaj_do_listy(nwd_);
+			  dodaj_do_listy(a[i] / nwd_);
+			  dodaj_do_listy(a[j] / nwd_);
+			  a[i]=1;
+			  a[j]=1;
+		      }
                 }
             }
         }
     }
+    
+    
+    /////////////////////////////////
+    // ETAP 4,5: sprawdzenie znanych dzielnikow //
+    /////////////////////////////////
+    
+    for (int i = 0; i < n; ++i) {
+	for(auto g : lista_dzielnikow){
+	    if(a[i]%g.first==0){
+		dodaj_do_listy(g.first);
+		dodaj_do_listy((a[i]/g.first));
+		a[i] = 1;
+	    }
+	}
+    }
 
-    lacz_mapy();
+   // lacz_mapy();
 
     /////////////////////////////////
     // ETAP 5: liczby półpierwsze  //
@@ -273,6 +429,11 @@ int main()
     // WYJSCIE                  //
     //////////////////////////////
 
+    for (map<long long int, int>::iterator iter = lista_dzielnikow.begin(); iter != lista_dzielnikow.end(); ++iter){
+      cout << "debug: " << (*iter ).first << ", krotnosc: "<< (*iter ).second << endl;
+    }
+    
+    
     // przejdz po elementach mapy, znajdz dzielniki z maksymalna krotnoscia, policz je
     int NajKrotnosc = 0;
     for (map<long long int, int>::iterator iter = lista_dzielnikow.begin(); iter != lista_dzielnikow.end(); ++iter){
@@ -289,8 +450,7 @@ int main()
         }
     }
     cout << NajKrotnosc << endl;
-    int ABC=(int)pow((double)2,Liczba_NajDziel)-1;
-    cout << ABC << endl;
+    wypisz_dwa_do_n_minus_jeden(Liczba_NajDziel);
 
     // wypisz wynik
     // cout << "...";
